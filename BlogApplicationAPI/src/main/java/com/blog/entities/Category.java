@@ -12,34 +12,30 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name="usertable")
+@Table(name="Categoy_Table")
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class User {
+@NoArgsConstructor
+public class Category {
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	private Integer id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer categoryId;
+
+	@Column(name="Title", length=100, nullable=false)
+	private String categoryTitle;
+
+	@Column(name="Description")
+	private String categoryDescription;
 	
-	@NotNull
-	@Column(name="username", nullable = false, length=20)
-	private String name;
-	
-	private String email;
-	
-	private String password;
-	
-	private String about;
-	
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch=FetchType.LAZY)
+	@OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch=FetchType.LAZY)
 	private List<Post> posts=new ArrayList<>();
+	
 
 }
