@@ -2,6 +2,8 @@ package com.blog.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Sort;
+
 import com.blog.dto.PostDTO;
 import com.blog.dto.PostResponse;
 import com.blog.entities.Post;
@@ -14,7 +16,7 @@ public interface PostService {
 	
 	void deletePost(Integer postId);
 	
-	PostResponse getAllPost(Integer pageNumber, Integer pageSize);
+	PostResponse getAllPost(Integer pageNumber, Integer pageSize, String sortBy, String sortDir);
 	
 	PostDTO getPostById(Integer postId);
 	

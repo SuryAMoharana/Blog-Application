@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.blog.dto.PostDTO;
@@ -75,10 +76,21 @@ public class PostServiceImpl implements PostService {
 	
 
 	@Override
-	public PostResponse getAllPost(Integer pageNumber, Integer pageSize) {
+	public PostResponse getAllPost(Integer pageNumber, Integer pageSize, String sortBy, String sortDir) {
 		
-		//with pagination
-		Pageable p=PageRequest.of(pageNumber, pageSize);
+		//through Ternary operator (excluding if else)
+		Sort sort=sortDir.equalsIgnoreCase("des")?Sort.by(sortBy).descending():Sort.by(sortBy).ascending();
+		
+//		if(sortDir.equalsIgnoreCase("des")) {
+//			sort=Sort.by(sortBy).descending();
+//		}
+//		else {
+//			sort=Sort.by(sortBy).ascending();
+//		}
+		
+		
+		//with pagination & SORTING 
+		Pageable p=PageRequest.of(pageNumber, pageSize, sort);
 		Page<Post> pagePost=postRepo.findAll(p);
 		List<Post> allPosts=pagePost.getContent();
 		List<PostDTO> postDtos=allPosts.stream().map((Post)->modelMapper.map(Post, PostDTO.class)).collect(Collectors.toList());
@@ -133,8 +145,14 @@ public class PostServiceImpl implements PostService {
 
 	@Override
 	public List<PostDTO> searchPost(String keyword) {
-		// TODO Auto-generated method stub
-		return null;
+		//BY METHOD
+		List<Post> posts=this.postRepo.findByTitleContaining(keyword);
+		
+		//BY QUERY
+		//List<Post> posts=this.postRepo.searchByTitle("%"+keyword+"%");
+		
+		List<PostDTO> postDtos=posts.stream().map((post)->modelMapper.map(post, PostDTO.class)).collect(Collectors.toList());
+		return postDtos;
 	}
 
 }
