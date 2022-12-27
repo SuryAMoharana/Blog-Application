@@ -1,10 +1,15 @@
 package com.blog.dto;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+
+import com.blog.entities.Comment;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -30,5 +35,7 @@ public class UserDTO {
 	
 	@NotEmpty
 	private String about;
+	
+	private Set<CommentDTO> comments=new HashSet<>();
 
 }

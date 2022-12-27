@@ -1,9 +1,8 @@
 package com.blog.dto;
 
 import java.util.Date;
-
-import com.blog.entities.Category;
-import com.blog.entities.User;
+import java.util.HashSet;
+import java.util.Set;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,6 +26,8 @@ public class PostDTO {
 	private CategoryDTO category;
 	
 	private UserDTO user;
+	
+	private Set<CommentDTO> comments=new HashSet<>();
 	
 
 }
